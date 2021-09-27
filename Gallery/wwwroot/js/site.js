@@ -18,9 +18,10 @@ $(function() {
             const child = `
             <div class="card border-0">
                 <img src="/img/${x.image}" alt="${x.name}" title="${x.name}" class="card-img" />
-                <div class="card-img-overlay">
+                <div class="card-img-overlay text-white">
                     <h5 class="card-title">Category : ${x.category}</h5>
                     <p class="card-text">Name : ${x.name}</div>
+                    <a href="/img/${x.image}" download class="download text-white">⬇</a>
                 </div>
             </div>
             `;
@@ -58,16 +59,17 @@ function CreateImage() {
             const child = `
             <div class="card border-0">
                 <img src="/img/${response.image}" alt="${response.name}" title="${response.name}" class="card-img" />
-                <div class="card-img-overlay">
+                <div class="card-img-overlay text-white">
                     <h5 class="card-title">Category : ${response.category}</h5>
                     <p class="card-text">Name : ${response.name}</div>
+                    <a href="/img/${response.image}" download onclick="DownloadImage('${response.id}')" class="download text-white">⬇</a>
                 </div>
             </div>
             `;
 
             parentDiv.prepend(child);
 
-            $(this).trigger("reset");
+            $("form").trigger("reset");
 
             $(function () {
                 $("#exampleModal").modal("toggle");
