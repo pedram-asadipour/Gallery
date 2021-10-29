@@ -26,6 +26,18 @@ namespace Gallery
 
             services.AddRazorPages();
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AccessApi", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .Build();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,6 +52,8 @@ namespace Gallery
             }
 
             app.UseStaticFiles();
+            
+            app.UseCors("AccessApi");
 
             app.UseRouting();
 

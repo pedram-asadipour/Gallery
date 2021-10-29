@@ -8,9 +8,6 @@ $(function() {
         "timeout": 0,
         "headers": {
             "Content-Type": "application/json"
-        },
-        "error":function() {
-            alert("Failed! Load Images");
         }
     };
 
@@ -42,14 +39,17 @@ function UploadImage() {
     $("form").submit(function(e) {
         e.preventDefault();
 
-        $(function () {
-            $("#exampleModal").modal("toggle");
-        });
-
         $.validator.setDefaults({ ignore: null });
         $.validator.unobtrusive.parse(this);
 
+        if (!$(this).valid())
+            return;
+
         const formData = new FormData(this);
+
+        $(function () {
+            $("#exampleModal").modal("toggle");
+        });
 
         const settings = {
             "url": "/api/gallery",
@@ -60,13 +60,14 @@ function UploadImage() {
             "contentType": false,
             "data": formData,
             "error": function () {
-                alert("Failed! Upload Image");
+                alert("Failed! Upload Image ⚠️");
             }
         };
 
         $.ajax(settings).done(function(response) {
 
             $("form").trigger("reset");
+
 
             const child = `
             <div class="card border-0">
