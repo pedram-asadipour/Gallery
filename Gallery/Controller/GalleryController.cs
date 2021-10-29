@@ -24,13 +24,12 @@ namespace Gallery.Controller
             try
             {
                 var gallery = _context.Galleries.ToList();
-
                 return Ok(gallery);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return StatusCode(417);
+                return NoContent();
             }
         }
 
