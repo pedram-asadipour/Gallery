@@ -21,9 +21,8 @@ namespace Gallery
         {
             services.AddDbContext<GalleryContext>(options =>
             {
-                options.UseSqlServer("Data Source=.;Initial Catalog=GalleryDB;Integrated Security=true;");
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-
 
             services.AddRazorPages();
             services.AddControllers();

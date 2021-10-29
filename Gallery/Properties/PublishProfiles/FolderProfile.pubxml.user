@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\pedram\Desktop\Gallery</_PublishTargetUrl>
+    <History>True|2021-10-29T11:22:22.7042899Z;True|2021-10-26T17:20:15.7473189+03:30;True|2021-10-26T17:19:45.7027775+03:30;True|2021-10-26T17:09:32.0688033+03:30;True|2021-10-26T16:58:59.9380617+03:30;True|2021-10-26T16:43:40.6088522+03:30;True|2021-10-25T19:49:01.3318944+03:30;</History>
+  </PropertyGroup>
+</Project>

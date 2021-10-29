@@ -1,12 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Runtime.CompilerServices;
 using Gallery.Data;
 using Gallery.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Gallery.Controller
 {
@@ -24,32 +21,56 @@ namespace Gallery.Controller
         [HttpGet]
         public IActionResult GetImages()
         {
-            var gallery = _context.Galleries.ToList();
+            try
+            {
+                var gallery = _context.Galleries.ToList();
 
-            return Ok(gallery);
+                return Ok(gallery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(417);
+            }
         }
 
         [HttpPost]
         public IActionResult CreateImage([FromForm] CreateImage command)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var filePath = "";
 
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var random = new Random();
-            var imgName = $"{random.Next(1000, 100000)}{Path.GetExtension(command.Image.FileName)}";
-            var path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","img", imgName);
+                var random = new Random();
+                var imgName = $"{command.Name}-{random.Next(1000, 100000)}-{random.Next(1, 100000)}{Path.GetExtension(command.Image.FileName)}";
+                var path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","img");
 
-            using var stream = new FileStream(path, FileMode.Create);
-            command.Image.CopyTo(stream);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
 
+                filePath = Path.Combine(path, imgName);
+                
+                using var stream = new FileStream(filePath, FileMode.Create);
+                command.Image.CopyTo(stream);
 
-            var gallery = new Model.Gallery(command.Name,imgName,command.Category);
+                var gallery = new Model.Gallery(command.Name,imgName,command.Category);
 
-            _context.Galleries.Add(gallery);
-            _context.SaveChanges();
+                _context.Galleries.Add(gallery);
+                _context.SaveChanges();
 
-            return Ok(gallery);
+                return Ok(gallery);
+            }
+            catch (Exception e)
+            {
+                if(System.IO.File.Exists(filePath))
+                    System.IO.File.Delete(filePath);
+
+                Console.WriteLine(e);
+                return StatusCode(417);
+            }
         }
     }
 }
